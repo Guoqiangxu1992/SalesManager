@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xu.manager.dao.CountMoneyByNameDataDao">
+	<resultMap type="com.xu.manager.bean.ProductMoneyByName" id="DList">
+	<id property="id" column="t_id"></id>
+		<result property="name" column="tb_name" ></result>
+		<result property="money" column="tb_money"></result>
+	</resultMap>
+	<!-- 初始化显示 -->
+	<select id="query" resultMap="DList">
+		SELECT * from count_money_by_name order by tb_money desc limit 0,15
+	</select>
+</mapper> 

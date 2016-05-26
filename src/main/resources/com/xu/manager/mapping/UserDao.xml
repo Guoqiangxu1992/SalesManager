@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xu.manager.dao.UserDao">
+	<resultMap type="com.xu.manager.bean.LoginUser" id="LoginUserMap">
+		<id property="id" column="id"></id>
+		<result property="userId" column="user_id" />
+		<result property="roleId" column="role_id"></result>
+		<result property="userName" column="user_name" />
+		<result property="fullName" column="full_name"></result>
+		<result property="passWord" column="password" />
+		<result property="sex" column="sex"></result>
+		<result property="birthday" column="birthday" />
+		<result property="mobile" column="mobile"></result>
+	</resultMap>
+
+	 <select id="query" resultMap="LoginUserMap">
+		SELECT * from td_login_user b
+		<include refid="searchCondition"></include>
+	</select>
+
+
+	<select id="confirm" resultMap="LoginUserMap">
+		SELECT * from td_login_user b
+		where user_name = #{userName}
+	</select>
+
+
+	<select id="countAll" resultType="int">
+		<![CDATA[ 
+		SELECT count(*) from td_login_user 
+		]]>
+	</select>
+	<insert id="insert" parameterType="com.xu.manager.bean.LoginUser">
+		insert into
+		td_login_user(id,user_id,user_name,full_name,sex,birthday,mobile,role_id,password)
+		values(
+		#{id}
+		,#{userId}
+		,#{userName}
+		,#{fullName}
+		,#{sex}
+		,#{birthday}
+		,#{mobile}
+		,#{roleId}
+		,#{passWord}
+		)
+
+	</insert>
+	<sql id="searchCondition">
+		<where>
+			role_id = 2
+			<if test="query.fullName != null">
+				and b.full_name like "%"#{query.fullName}"%"
+			</if>
+
+		</where>
+	</sql>
+
+	<delete id="deleteMore">
+		<foreach collection="list" item="id" index="idx" open=""
+			close=";" separator=";">
+			delete from td_login_user where id=${id}
+		</foreach>
+	</delete>
+	<select id="getById" resultMap="LoginUserMap">
+		SELECT * from td_login_user where
+		id = #{id}
+	</select>
+
+
+	<update id="update" parameterType="com.xu.manager.bean.LoginUser">
+		update td_login_user
+		<set>
+			user_name=#{userName},
+			user_id=#{userId},
+			full_name=#{fullName},
+			sex = #{sex},
+			birthday = #{birthday},
+			mobile = #{mobile},
+			password = #{passWord}
+		</set>
+		WHERE id = #{id}
+	</update> 
+</mapper> 
